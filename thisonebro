@@ -1,0 +1,104 @@
+'''
+print(sys.argv)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('option')   # 'option' is the 'dest'
+args = parser.parse_args()
+print(args)
+
+if 'CREATE' in args.option:
+    print('creating')
+elif 'SHOW' in args.option:
+    print('showing')
+else:
+    print('else')
+'''
+
+import re
+import random
+
+
+class Message:
+
+    def __init__(self):
+        self.string = '<LANCE ID=Token1 M=Process.node1 COLOR=GREEN>'
+        self.randid = random.randint(333, 444)
+        self.result = re.split(' ', self.string.strip('<>'))
+        self.listid = []
+        self.m = ''
+        self.status = {'a': '2', 'd': 3, 'Token1': 4}
+
+    def classify(self):
+        print(self.result[0])
+        self.m =str(self.result[2]).split('=')
+        print("==",self.m)
+        print(self.result[1])
+        print(self.result[2])
+        print(self.result[3])
+
+        print("+=====", str(self.string).split(' '))
+        if self.result[0] == 'LANCE' and self.m[0] == 'M':
+            return Parsingmessage.lapa(self)
+
+        elif self.result[0] == 'TRACE':
+            return Parsingmessage.trace(self)
+        else:
+            return "command error"
+
+
+class Parsingmessage(Message):
+    def __init__(self):
+        super().__init__()  # try adding self inside  'doubt?'
+        self.id_number = ''
+        self.id_split = ''
+        self.action = ''
+
+    def lapa(self):
+        print("reached launch class")
+        self.id_split = str(self.result[1]).split('=')
+        print(self.id_split)
+        self.id_number = self.id_split[1]
+        print(self.id_number)
+        self.listid.append(self.id_number)
+        print("added in list")
+        self.status[self.id_number] = "id generated"
+        print(self.status, self.listid)
+        print("---",self.m[1])
+        d = self.m[1]
+        print("===",)
+        # self.f = str(self.m[1]).split('.')
+        # print("333333",self.f)
+
+        return d()    # x =self.f[0]+self.f[1]+(self)
+        # print(x)
+
+
+        # def trace(self):
+        #     print("reached Trace module")
+        #     self.id_split = str(self.result[1]).split('=')
+        #     print(self.id_split)
+        #     self.id_number = self.id_split[1]
+        #     print(self.id_number)
+        # if self.id_number in self.status.keys():
+        #     print(self.status.get(self.id_number))
+        # else:
+        #     print("no id is present")
+
+
+class Process(Parsingmessage):
+    def __init__(self):
+        super().__init__()
+
+    def node1(self):
+        print('node == 1')
+        self.status[self.id_number]='hey im still here in node1 dood!'
+        print(self.status)
+
+    def node2(self):
+        print('node ====2')
+
+
+if __name__ == '__main__':
+    m = Message()
+    m.classify()
+    l = Parsingmessage()
